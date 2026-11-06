@@ -1,0 +1,62 @@
+<main class="catalogo">
+    <header class="catalogo__cabecera">
+        <h1>Casa y escritorio</h1>
+        <p>Muebles, papelería y jardinería</p>
+    </header>
+
+    <section class="barra">
+        <div class="buscador">
+            <input type="search" [formControl]="busqueda" placeholder="Buscar producto por nombre"
+                aria-label="Buscar por nombre" />
+        </div>
+
+        <div class="chips">
+            @for (c of categorias; track c) {
+            <button type="button" class="chip" [class.chip--activo]="filtros.controls.categoria.value === c"
+                (click)="elegirCategoria(c)">
+                {{ c }}
+            </button>
+            }
+        </div>
+
+        <div class="rango" [formGroup]="filtros">
+            <label>
+                Desde
+                <input type="number" min="0" formControlName="min" placeholder="$0" />
+            </label>
+            <label>
+                Hasta
+                <input type="number" min="0" formControlName="max" placeholder="$3,200" />
+            </label>
+        </div>
+
+        <button type="button" class="limpiar" (click)="limpiar()">Limpiar</button>
+    </section>
+
+    <p class="contador">
+        {{ total() }} {{ total() === 1 ? 'producto encontrado' : 'productos encontrados' }}
+    </p>
+
+    @if (total() === 0) {
+    <div class="vacio">
+        <p>No hay productos que coincidan con la búsqueda o los filtros.</p>
+        <button type="button" (click)="limpiar()">Quitar filtros</button>
+    </div>
+    } @else {
+    <section class="rejilla">
+        @for (p of resultados(); track p.id) {
+        <article class="producto">
+            <img [src]="p.imagen" [alt]="p.nombre" loading="lazy" />
+            <div class="producto__info">
+                <span class="producto__categoria">{{ p.categoria }}</span>
+                <h2>{{ p.nombre }}</h2>
+                <p>{{ p.descripcion }}</p>
+                <strong class="producto__precio">
+                    {{ p.precio | currency: 'MXN' : 'symbol-narrow' : '1.0-0' }}
+                </strong>
+            </div>
+        </article>
+        }
+    </section>
+    }
+</main>

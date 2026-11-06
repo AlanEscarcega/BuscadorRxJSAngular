@@ -4,10 +4,11 @@ import { Producto } from './producto';
 import { DisponibilidadPipe } from './disponibilidad.pipe';
 import { inject } from '@angular/core';
 import { ProductosService } from './productos.service';
+import { ProductSearchComponent } from './product-search/product-search.component';
 
 @Component({
   selector: 'app-root',
-  imports: [CurrencyPipe, UpperCasePipe, DisponibilidadPipe],
+  imports: [CurrencyPipe, ProductSearchComponent, UpperCasePipe, DisponibilidadPipe],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
